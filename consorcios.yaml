@@ -1,0 +1,269 @@
+swagger: "2.0"
+info:
+  description: "Sistema de Consorcios [http://ejemplo.com](http://ejemplo.com) "
+  version: "1.0.0"
+  title: "Administración de consorcios"
+  termsOfService: "http://ejemplo/tyc/"
+  contact:
+    email: "user@consorcios.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "petstore.consorcios.io"
+basePath: "/v2"
+tags:
+- name: "edificio"
+  description: "Operaciones sobre los edificios"
+  externalDocs:
+    description: "Documentacion externa edificios"
+    url: "http://consorcios.com/edificios"
+- name: "propietario"
+  description: "Operaciones sobre los propietarios"
+  externalDocs:
+    description: "Documentacion externa de propietarios"
+    url: "http://consorcios.com/propietarios"
+schemes:
+- "https"
+- "http"
+paths:
+  /propietario:
+    post:
+      tags:
+      - "propietario"
+      summary: "creo un nuevo propietario para un edificio"
+      description: ""
+      operationId: "nuevoPropietario"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Objeto propietario para asignar a un edificio"
+        required: true
+        schema:
+          $ref: "#/definitions/Propietarios"
+      responses:
+        "405":
+          description: "Invalid input"
+
+    put:
+      tags:
+      - "propietario"
+      summary: "Modifico los datos de un propietario"
+      description: ""
+      operationId: "modificoPropietario"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Objeto propietario para asignar a un edificio"
+        required: true
+        schema:
+          $ref: "#/definitions/Propietarios"
+      responses:
+        "400":
+          description: "Elemento Invalido"
+        "404":
+          description: "propietario no encontrado"
+        "405":
+          description: "excepción"
+
+  /propietario/buscarEstado:
+    get:
+      tags:
+      - "propietario"
+      summary: "Busco un propietario por su estado"
+      description: "Se pueden proporcionar múltiples valores de estado con cadenas separadas por comas"
+      operationId: "BuscarPropietarioPorEstado"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "status"
+        in: "query"
+        description: "Valores de los estado que deben considerarse para el filtro"
+        required: true
+        type: "array"
+        items:
+          type: "string"
+          enum:
+          - "available"
+          - "pending"
+          - "sold"
+          default: "available"
+        collectionFormat: "multi"
+      responses:
+        "200":
+          description: "Operacion Realizada"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Propietarios"
+        "400":
+          description: "Elemento Invalido"
+
+  /propietario/{propietarioId}:
+    get:
+      tags:
+      - "propietario"
+      summary: "Busco un propietario por Id"
+      description: "Retorno un propietario"
+      operationId: "obtenerPropietarioPorId"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "propietarioId"
+        in: "path"
+        description: "Identifica el id del propietario"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "Operacion Realizada"
+          schema:
+            $ref: "#/definitions/Propietarios"
+        "400":
+          description: "Elemento Invalido"
+        "404":
+          description: "Elemento no encontrado"
+    post:
+      tags:
+      - "propietario"
+      summary: "Actualizo al propietario en el edificio"
+      description: ""
+      operationId: "actualizaPropietario"
+      consumes:
+      - "application/x-www-form-urlencoded"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "propietarioId"
+        in: "path"
+        description: "Actualizar el propietario identificado"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "405":
+          description: "Elemento Invalido"
+
+    delete:
+      tags:
+      - "propietario"
+      summary: "Elimino un propietario"
+      description: ""
+      operationId: "eliminarPropietario"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "api_key"
+        in: "header"
+        required: false
+        type: "string"
+      - name: "propietarioId"
+        in: "path"
+        description: "Eliminar propietario identificado"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "400":
+          description: "Elemento id Invalido"
+        "404":
+          description: "Elemento Invalido"
+
+  
+  /edificio/habitantes:
+    get:
+      tags:
+      - "edificio"
+      summary: "Retorna todas los propietarios de un edificio"
+      description: "Retorna la cantidad"
+      operationId: "obtenerEdificio"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "Operacion Sactifactoria"
+          schema:
+            type: "object"
+            additionalProperties:
+              type: "integer"
+              format: "int32"
+  /edificio:
+    post:
+      tags:
+      - "edificio"
+      summary: "crea un nuevo edificio"
+      description: "Nuevo edificio"
+      operationId: "NuevoEdificio"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Crea el objeto usurio"
+        required: true
+        schema:
+          $ref: "#/definitions/Edificios"
+      responses:
+        default:
+          description: "Operacion Sactifactoria"
+definitions:
+  Propietarios:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      username:
+        type: "string"
+      name:
+        type: "string"
+      email:
+        type: "string"
+      password:
+        type: "string"
+      phone:
+        type: "string"
+      userStatus:
+        type: "integer"
+        format: "int32"
+        description: "User Status"
+    xml:
+      name: "Propietarios"
+  Edificios:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nombre:
+          type: string
+        derecion:
+          type: string
+        telefono:
+          type: string
+        active:
+          type: boolean
+          default: true
+      xml:
+        name: Edificios
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"

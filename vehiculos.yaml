@@ -1,0 +1,88 @@
+swagger: "2.0"
+info:
+  description: "Programamos "
+  version: "1.0.0"
+  title: "Gestion de vehículos disponible"
+  termsOfService: "http://ejemplo/tyc/"
+  contact:
+    email: "user@vtest.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "petstore.test.io"
+basePath: "/v2"
+tags:
+- name: "Vehiculos"
+  description: "Operaciones sobre los vehículos"
+  externalDocs:
+    description: "Documentacion externa vehículos"
+    url: "http://ejemplo.com/edificios"
+schemes:
+- "https"
+- "http"
+paths:
+  /vehiculos:
+    get:
+      summary: Listado
+      description: Trae todos los listados de los vhículos
+      responses:
+        200:
+          description: Ok
+          schema:
+            type: "array"
+            items:
+              $ref: '#/definitions/Vehiculos'
+        405:
+          description: Elemento Invalido
+    post:
+      summary: Alta
+      description: Alta de un nuevo Vehículo
+      parameters:
+      - in: "body"
+        name: "body"
+        description: Objeto para cargar un nuevo vehículo
+        required: true
+        schema:
+          $ref: "#/definitions/Vehiculos"
+      responses:
+        200:
+          description: OK
+        405:
+          description: Elemento Invalido
+    put:
+      summary: Alta
+      description: Alta de un nuevo Vehículo
+      parameters:
+      - in: "body"
+        name: "body"
+        description: objeto para cargar un nuevo vehículo
+        required: true
+        schema:
+          $ref: "#/definitions/Vehiculos"
+      responses:
+        200:
+          description: OK
+        405:
+          description: Elemento Invalido   
+definitions:
+  Vehiculos:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      marca:
+        type: "string"
+      modelo:
+        type: "string"
+      fecha:
+        type: "string"
+      puertas:
+        type: "integer"
+      disponible:
+        type: "boolean"
+    xml:
+      name: "Propietarios"            
+            
+            
+            
