@@ -13,7 +13,7 @@ console.log(cant);
 
 //mostramos la primer fruta
 var primera = frutas[0];
-console.log(found);
+console.log(primera);
 
 //agregamos un nueva fruta
 frutas.push("Naranja");
