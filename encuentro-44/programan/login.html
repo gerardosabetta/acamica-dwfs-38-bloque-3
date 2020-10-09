@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+</head>
+
+<body>
+  <h1>Login</h1>
+  <input type="text" id="email" placeholder="email">
+  <input type="password" id="password" placeholder="password">
+  <button id="boton">Login</button>
+</body>
+
+<script>
+  const email = document.getElementById('email');
+  const password = document.getElementById('password');
+  const boton = document.getElementById('boton');
+
+  boton.addEventListener('click', async () => {
+
+    try {
+
+      const res = await fetch('http://localhost:3000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: email.value,
+          password: password.value
+        })
+      });
+
+      const resAsJSON = await res.json();
+
+      localStorage.setItem('user', JSON.stringify(resAsJSON));
+    } catch (error) {
+      console.log(`algo salio mal, ${error}`)
+    }
+
+
+  })
+
+</script>
+
+</html>

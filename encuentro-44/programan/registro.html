@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro</title>
+</head>
+
+<body>
+  <h1>Registro</h1>
+  <input type="text" id="email" placeholder="email">
+  <input type="text" id="nombre" placeholder="nombre">
+  <input type="text" id="apellido" placeholder="apellido">
+  <input type="number" id="edad" placeholder="edad">
+  <input type="password" id="password" placeholder="password">
+  <button id="boton">Registro</button>
+</body>
+
+<script>
+  const email = document.getElementById('email');
+  const nombre = document.getElementById('nombre');
+  const apellido = document.getElementById('apellido');
+  const edad = document.getElementById('edad');
+  const password = document.getElementById('password');
+  const boton = document.getElementById('boton');
+
+  boton.addEventListener('click', async () => {
+    const res = await fetch('http://localhost:3000/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        nombre: nombre.value,
+        apellido: apellido.value,
+        edad: edad.value,
+        email: email.value,
+        password: password.value
+      })
+    });
+
+    const resAsJSON = await res.json();
+
+    console.log(resAsJSON)
+
+  })
+
+</script>
+
+</html>

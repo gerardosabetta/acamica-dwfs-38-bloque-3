@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Index</title>
+</head>
+
+<body>
+
+</body>
+
+<script>
+
+  const usuario = JSON.parse(localStorage.getItem('user'));
+
+  const h1 = document.createElement('h1');
+  if (usuario) {
+    h1.textContent = `Hola ${usuario.nombre}!!!!`;
+  } else {
+    h1.textContent = `Hola anonimo`;
+  }
+
+  document.body.appendChild(h1);
+</script>
+
+</html>
