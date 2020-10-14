@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Index</title>
+</head>
+
+<body>
+
+</body>
+
+<script>
+
+  const jwt = localStorage.getItem('jwt');
+
+  async function obtenerSaludo() {
+    try {
+
+      const saludo = await fetch('http://localhost:3000/saludar', {
+        headers: {
+          'Authorization': `Bearer ${jwt}`
+        },
+      });
+      const saludoTexto = await saludo.text();
+
+      const h1 = document.createElement('h1');
+      h1.textContent = saludoTexto;
+
+      document.body.appendChild(h1);
+    } catch (e) {
+      console.log('Algo salio mal')
+    }
+
+
+  }
+
+  obtenerSaludo()
+</script>
+
+</html>
