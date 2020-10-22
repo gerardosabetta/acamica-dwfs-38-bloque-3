@@ -3,7 +3,7 @@ CREATE DATABASE music_database;
 USE music_database;
 
 CREATE TABLE bandas (
-  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  banda_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   nombre VARCHAR(50) NOT NULL,
   integrantes INT NOT NULL,
   fecha_inicio DATE NOT NULL,
@@ -17,9 +17,9 @@ INSERT INTO bandas VALUES
 
 
 CREATE TABLE albums (
-	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	album_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(30) NOT NULL,
-    banda INT NOT NULL,
+    banda_id INT NOT NULL,
     fecha_publicacion DATE NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 INSERT INTO albums  VALUES
@@ -28,11 +28,11 @@ INSERT INTO albums  VALUES
 (3, 'Toxicity', 3, '2001-09-04');
 
 CREATE TABLE canciones (
-  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  cancion_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   nombre VARCHAR(50) NOT NULL,
   duracion INT NOT NULL,
-  album INT NOT NULL,
-  banda INT NOT NULL,
+  album_id INT NOT NULL,
+  banda_id INT NOT NULL,
   fecha_publicacion DATE NOT NULL
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;
 INSERT INTO canciones VALUES
