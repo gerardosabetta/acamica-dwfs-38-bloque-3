@@ -95,7 +95,7 @@ app.delete("/artista/:id", (req, res) => {
 
 let selectArtist = async (bandaId) => {
   const banda = await db.sequelize.query(
-    "SELECT * FROM bandas WHERE banda_id = :bandaId",
+    "SELECT banda_id, nombre AS 'banda_nombre' FROM bandas WHERE banda_id = :bandaId",
     {
       type: db.sequelize.QueryTypes.SELECT,
       replacements: { bandaId: bandaId },
@@ -105,11 +105,29 @@ let selectArtist = async (bandaId) => {
   return banda;
 };
 
+let selectAlbumsByBand = async (bandaId) => {
+  const albums = await db.sequelize.query(
+    "SELECT nombre AS 'album_nombre' FROM albums WHERE banda_id = :bandaId",
+    {
+      type: db.sequelize.QueryTypes.SELECT,
+      replacements: { bandaId: bandaId },
+    }
+  );
+
+  // console.log(albums);
+
+  return albums;
+};
+
 app.get("/artista/:id", async (req, res) => {
   const bandaId = req.params.id;
   try {
     const artista = await selectArtist(bandaId);
-    res.send(artista);
+    const albums = await selectAlbumsByBand(bandaId);
+    res.send({
+      artista: artista[0],
+      albums: albums,
+    });
     res.status(200);
   } catch (error) {
     console.log("Error: ", error);
@@ -137,6 +155,44 @@ app.get("/artista", async (req, res) => {
   }
 });
 
+let selectAlbum = async (albumId) => {
+  const albums = await db.sequelize.query(
+    "SELECT albums.nombre AS album_nombre, bandas.nombre AS banda_nombre FROM albums JOIN bandas ON albums.banda_id = bandas.banda_id WHERE albums.album_id = :albumId",
+    {
+      type: db.sequelize.QueryTypes.SELECT,
+      replacements: { albumId: albumId },
+    }
+  );
+  return albums;
+};
+
+let selectCanciones = async (albumId) => {
+  const canciones = await db.sequelize.query(
+    "SELECT canciones.nombre FROM canciones WHERE canciones.album_id = :albumId",
+    {
+      type: db.sequelize.QueryTypes.SELECT,
+      replacements: { albumId: albumId },
+    }
+  );
+  return canciones;
+};
+
+app.get("/albums/:id", async (req, res) => {
+  const albumId = req.params.id;
+  try {
+    const album = await selectAlbum(albumId);
+    const cancionesDelAlbum = await selectCanciones(albumId);
+    res.send({
+      album: album[0],
+      canciones_del_album: cancionesDelAlbum,
+    });
+    res.status(200);
+  } catch (error) {
+    console.log("Error: ", error);
+    res.status(404);
+    res.send("Algo anda mal.");
+  }
+});
 /*
 
 Les recomiendo trabajar con async await para evitar los problemas de asincronia.
